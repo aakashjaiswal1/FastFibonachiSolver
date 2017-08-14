@@ -1,0 +1,34 @@
+package fast_fib;
+
+import java.util.HashMap;
+
+/**
+ * Created by sky on 14/8/17.
+ */
+public class fastfib {
+    protected static class Fib{
+        HashMap<Long,Long> hm;
+        Fib(){
+        this.hm=new HashMap<>();
+        this.hm.put((long)1,(long)1);
+        this.hm.put((long) 0, (long) 0);
+
+        }
+        long GetFibonachi(long no){
+            if(hm.containsKey(no)){
+                return hm.get(no);
+            }
+            hm.put(no,GetFibonachi(no-1)+GetFibonachi(no-2));
+            return hm.get(no);
+        }
+
+
+
+
+
+
+
+
+
+    }
+}
