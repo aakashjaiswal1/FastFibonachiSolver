@@ -1,34 +1,157 @@
-//package fast_fib;
-
 import java.util.HashMap;
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 /**
- * Created by sky on 14/8/17.
+ * Created by sky on 14/1/18.
+ * www.github.com/aakashjaiswal1
+ * aakashjaiswal@hotmail.co.in
+ * aakashjaiswal.in@gmail.com
+ * people die if they are killed
  */
-public static class fastfib {
-    protected static class Fib{
-        HashMap<Long,Long> hm;
-        Fib(){
-        this.hm=new HashMap<>();
-        this.hm.put((long)1,(long)1);
-        this.hm.put((long) 0, (long) 0);
+class fibosum3 {
 
+    static final long MOD = (long) 1e9 + 7;
+    static FastReader in;
+
+
+    static void p(Object o) {
+        System.out.print(o);
+    }
+
+    static void pn(Object o) {
+        System.out.println(o);
+    }
+
+    static String n() {
+        return in.next();
+    }
+
+    static String nln() {
+        return in.nextLine();
+    }
+
+    static int ni() {
+        return Integer.parseInt(in.next());
+    }
+
+    static int[] ia(int N) {
+        int[] a = new int[N];
+        for (int i = 0; i < N; i++) a[i] = ni();
+        return a;
+    }
+
+    static long[] la(int N) {
+        long[] a = new long[N];
+        for (int i = 0; i < N; i++) a[i] = nl();
+        return a;
+    }
+
+    static long nl() {
+        return Long.parseLong(in.next());
+    }
+
+    static double nd() {
+        return Double.parseDouble(in.next());
+    }
+
+    static class FastReader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public FastReader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
         }
-        long GetFibonachi(long no){
-            if(hm.containsKey(no)){
-                return hm.get(no);
+
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            hm.put(no,GetFibonachi(no-1)+GetFibonachi(no-2));
-            return hm.get(no);
+            return st.nextToken();
         }
 
+        String nextLine() {
+            String str = "";
+            try {
+                str = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return str;
+        }
+    }
 
-
-
-
-
-
-
+    public static void main(String[] args) throws Exception {
+        in = new FastReader();
+        System.out.println("enter the value of number thats fibonachi you want to calculate");
+             int lamda=ni();
+                    System.out.println("fibo of" + (lamda) + "is ->" + CalculateFibonachi(lamda));
 
     }
+    static long CalculateFibonachi(int x) throws Exception {
+        if (x<=0)
+            return 0;
+        if (x==1)
+            return 1;
+        long[][] mat1={{0,1}};
+        long [][] mat2={{0,1},{1,1}};
+        long[][] matres=FASTmuliply_matrix(mat2,x);
+        matres=multiply(mat1,matres);
+        return matres[0][0];
+    }
+
+
+    static long[][] multiply(long[][] matrix1,long[][] matrix2) throws Exception {
+        int p=matrix1[0].length;
+        int q=matrix2.length;
+        if (p!=q)
+        {
+            throw new Exception("cant multiply the matrix");
+        }
+        long[][] res=new long[matrix1.length][matrix2[0].length];
+
+        for (int i=0;i<matrix1.length;++i){
+            for (int j=0;j<matrix2[0].length;++j){
+                long sum=0;
+                for (int k=0;k<p;++k){
+                    sum+=matrix1[i][k]*matrix2[k][j];
+                }
+                res [i][j]= ((sum+MOD)%MOD);
+            }
+        }
+        return res;
+
+    }
+    static long[][] FASTmuliply_matrix(long[][] a,long x) throws Exception {
+        long[][] result=getIdentity(a.length);
+        while (x>0){
+            if ((x&1)==1){
+                result=multiply(result,a);
+            }
+            a=multiply(a,a);
+            x>>=1;
+        }
+        return ((result));
+    }
+
+
+    static long[][] getIdentity(long size){
+        long[][] ret=new long[(int) size][(int) size];
+        for (int i=0;i<size;++i){
+            for (int j=0;j<size;++j){
+                if (i==j)
+                    ret[i][j]=1;
+                else ret[i][j]=0;
+            }
+        }
+        return ret;
+    }
+
+
+
 }
